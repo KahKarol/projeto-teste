@@ -29,7 +29,7 @@ deploy:
       with:
         name: projetozipado
     - name: Display structure of downloaded files
-       run: ls -R
+      run: ls -R
         
               
           
