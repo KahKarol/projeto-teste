@@ -16,13 +16,21 @@ jobs:
       - name: Simulando Continuos Delivery
         uses: actions/upload-artifact@v7
         with:
-         name: projet
-         ozipado
+         name: projetozipado
          path: |
           '**.py'
           README.md
 
-          
+deploy: 
+  runs-on: ubuntu-latest  
+  needs: deliver
+  steps:
+    - uses: actions/download-artifact@v8
+      with:
+        name: projetozipado
+    - name: Display structure of downloaded files
+       run: ls -R
+        
               
           
       
