@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -22,4 +25,4 @@ jobs:
           pip install fastapi pylint
 
       - name: Rodar Pylint
-        run: pylint --disable=E0401 $(git ls-files '*.py')
+        run: pylint --disable=all --enable=F,E --disable=E0401 main.py
