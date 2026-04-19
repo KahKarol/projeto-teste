@@ -18,4 +18,4 @@ jobs:
     needs: deliver
     steps:
       - name: Simulando Deploy
-        run: echo "Deploy ok" ###### SOCORRRROOOOOO
+        run: echo "Deploy ok" ######
