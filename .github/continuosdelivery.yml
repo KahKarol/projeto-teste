@@ -17,5 +17,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: deliver
     steps:
+<<<<<<< Updated upstream
       - name: Simulando Deploy
         run: echo "Deploy ok"
+=======
+      - name: Download do artefato
+        uses: actions/download-artifact@v4
+        with:
+          name: projetozipado
+
+      - name: Display structure of downloaded files
+        run: ls -R 
+>>>>>>> Stashed changes
