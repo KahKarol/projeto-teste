@@ -1,17 +1,21 @@
-name: Continuous Delivery - Teste
+name: Continuous Delivery
 
 on: 
   push:
     branches:
       - main
-      - teste-deploy
 
 jobs:
-  build-and-deploy:
+  deliver:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Simulando Delivery
+        run: echo "Delivery ok"
 
-      - name: Simular Build
-        run: echo "Build realizado com sucesso" # Teste para forçar o pull request 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: deliver
+    steps:
+      - name: Simulando Deploy
+        run: echo "Deploy ok"
