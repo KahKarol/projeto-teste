@@ -1,5 +1,16 @@
-def saudacao():
-    return "Olá, GitHub Actions!"
+"""Módulo de exemplo para GitHub Actions."""
 
-if __name__ == "__main__":
-    print(saudacao())
+from fastapi import FastAPI
+import random
+
+app = FastAPI()
+
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+@app.get("/testei")
+async def funcaoteste():
+    return {"teste": True, "num_aleatorio": random.randint(a=0, b=1000)} 
+

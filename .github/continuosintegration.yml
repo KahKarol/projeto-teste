@@ -6,11 +6,13 @@ on:
 
 
 jobs:
-  buid:
-    runs-on: ubuntu-latest
+  build:
+    run: pylint --disable=C,R,W0611,E0401 $(git ls-files '*.py')
     steps:
       - name: Check out repository code
         uses: actions/checkout@v5
+      - name: Install dependencies
+        run: pip install fastapi
       
 
       - name: Python Lint Code Scanning Action
