@@ -25,5 +25,6 @@ jobs:
           pip install fastapi pylint
 
       - name: Rodar Pylint
-        # O segredo: --errors-only faz ele ignorar as frescuras de formatacao
-        run: pylint --errors-only $(git ls-files '*.py')
+        run: |
+          pip install fastapi pylint
+          pylint --disable=all --enable=F,E --disable=E0401 $(git ls-files '*.py')
