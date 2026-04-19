@@ -22,5 +22,4 @@ jobs:
           pip install fastapi pylint
 
       - name: Rodar Pylint
-        # O comando abaixo ignora erros de importação se a lib não estiver no path
         run: pylint --disable=E0401 $(git ls-files '*.py')
