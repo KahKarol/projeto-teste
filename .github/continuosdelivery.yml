@@ -1,6 +1,6 @@
 name: Continuous Delivery - Teste
 
-on: 
+on:
   push:
     branches:
       - main
