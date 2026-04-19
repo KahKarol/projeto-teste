@@ -1,4 +1,4 @@
-name: Continuous Delivery
+name: Continuous Delivery - Teste
 
 on: 
   push:
@@ -9,23 +9,25 @@ jobs:
   deliver:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Simulando Delivery
-        run: echo "Delivery ok"
+      - name: Check out repository code
+        uses: actions/checkout@v4
 
-  deploy:
-    runs-on: ubuntu-latest
+      - name: Simulando Continuos Delivery
+        uses: actions/upload-artifact@v4
+        with:
+          name: projetozipado
+          path: |
+            **.py
+            README.md
+
+  deploy: 
+    runs-on: ubuntu-latest  
     needs: deliver
     steps:
-<<<<<<< Updated upstream
-      - name: Simulando Deploy
-        run: echo "Deploy ok"
-=======
       - name: Download do artefato
         uses: actions/download-artifact@v4
         with:
           name: projetozipado
 
       - name: Display structure of downloaded files
-        run: ls -R 
->>>>>>> Stashed changes
+        run: ls -R
