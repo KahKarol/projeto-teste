@@ -19,6 +19,7 @@ jobs:
         pip install pylint
         
     - name: Rodar Pylint
-      # O ponto (.) diz ao Pylint para procurar arquivos .py em todas as pastas
+      env:
+        PYTHONPATH: .  
       run: |
-        pylint $(git ls-files '*.py')
+        pylint $(git ls-files '**.py')
