@@ -5,5 +5,5 @@ app = FastAPI()
 @app.get("/")
 async def root():
     """Titulo"""
-    return {"message": "Meu primeiro Projeto com Docker!"}
+    return {"message": "Hello, world!"}
 
