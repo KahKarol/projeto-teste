@@ -68,7 +68,7 @@ jobs:
       - name: Discord Commits
         uses: Sniddl/discord-commits@6bf11a849e2f812133e3f7e5df043d06fd262ee8
         with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           template: "avatar-with-link"
           include-extras: true
 
