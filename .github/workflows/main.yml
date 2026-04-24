@@ -61,6 +61,7 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v7
 
+
 # 5. TESTES
   testes:
     runs-on: ubuntu-latest
@@ -87,4 +88,28 @@ jobs:
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           # Corre o teste apontando para o ficheiro específico
           pytest testes/testes.py
+
+  # 6. ATUALIZAR HORA E DATA
+  atualizar-readme:
+    runs-on: ubuntu-latest
+    needs: testes 
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      
+      - name: Instalar pytz
+        run: pip install pytz
+
+      - name: Executar script de atualização
+        run: python update_readme.py
+
+      - name: Commit e Push das alterações
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "docs: atualiza data/hora no README"
+          git push
 
