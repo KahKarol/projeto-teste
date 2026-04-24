@@ -20,7 +20,7 @@ jobs:
         run: |
           pip install fastapi pylint
       - name: Rodar Pylint
-        run: pylint --disable=all --enable=F,E --disable=E0401 main.py
+        run: pylint --disable=all --enable=F,E --disable=E0401 src/main.py
 
   # 2. CD - DELIVERY 
   continuos-delivery:
@@ -80,6 +80,6 @@ jobs:
       run: |
         pip install pytest pytest-cov
         pytest testes/testes.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-        export PYTHONPATH=$PYTHONPATH:$(pwd)
-        pytest
+        export PYTHONPATH=$PYTHONPATH:$(pwd)/src
+        pytest testes/testes.py
 
