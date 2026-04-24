@@ -90,14 +90,10 @@ jobs:
     needs: testes
     permissions:
       contents: write
+      pull-requests: write # ESSENCIAL para a action peter-evans funcionar
     steps:
       - uses: actions/checkout@v4
-        with:
-          # Isso garante que o bot possa fazer push
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # Isso força o checkout da branch correta, mesmo em pull_request
-          ref: ${{ github.head_ref }}
-
+      
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
@@ -114,7 +110,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "docs: atualiza data no README"
           title: "Atualização automática do README"
-          body: "Esta é uma atualização automática da data de execução do pipeline."
-          branch: "atualizacao-readme-automatica"
-          delete-branch: true 
+          body: "Atualização gerada pelo pipeline de CI/CD."
+          branch: "atualizacao-readme-auto"
 
