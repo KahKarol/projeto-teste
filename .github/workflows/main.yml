@@ -1,4 +1,4 @@
-name: CI e CD Pipeline
+name: CI e CD 
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
         run: |
           pip install fastapi pylint
       - name: Rodar Pylint
-        run: pylint --disable=all --enable=F,E --disable=E0401 main.py
+        run: pylint --disable=all --enable=F,E --disable=E0401 src/main.py
 
   # 2. CD - DELIVERY 
   continuos-delivery:
@@ -61,14 +61,58 @@ jobs:
       - name: Build
         uses: docker/build-push-action@v7
 
-# 5. Integração com Discord
-  discord:
+
+# 5. TESTES
+  testes:
     runs-on: ubuntu-latest
     steps:
-      - name: Discord Commits
-        uses: Sniddl/discord-commits@6bf11a849e2f812133e3f7e5df043d06fd262ee8
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          webhook_url: "${{ secrets.DISCORD_WEBHOOK }}"
-          template: "avatar-with-link"
-          include-extras: true
+          python-version: '3.9'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # IMPORTANTE: Garanta que httpx esteja aqui
+          pip install fastapi uvicorn httpx pytest pytest-cov pytz
+          # Instala as dependências do arquivo se existir
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Test with pytest
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          pytest testes/testes.py
+
+
+  # 6. ATUALIZAR HORA E DATA
+  atualizar-readme:
+    runs-on: ubuntu-latest
+    needs: testes
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Isso garante que o bot possa fazer push
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Isso força o checkout da branch correta, mesmo em pull_request
+          ref: ${{ github.head_ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      
+      - name: Instalar dependências
+        run: pip install pytz
+
+      - name: Executar script de atualização
+        run: python update_readme.py
+
+      - name: Commit e Push das alterações
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          # Adiciona apenas se houver mudanças
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: atualiza data no README" && git push)
 
