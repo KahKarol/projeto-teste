@@ -90,10 +90,12 @@ jobs:
     needs: testes
     permissions:
       contents: write
-      pull-requests: write # ESSENCIAL para a action peter-evans funcionar
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
-      
+        with:
+          fetch-depth: 0 # Baixa todo o histórico para evitar erros de git
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
@@ -104,12 +106,13 @@ jobs:
       - name: Executar script de atualização
         run: python update_readme.py
 
-      - name: Criar Pull Request com a atualização
+      - name: Criar ou Atualizar Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "docs: atualiza data no README"
-          title: "Atualização automática do README"
-          body: "Atualização gerada pelo pipeline de CI/CD."
-          branch: "atualizacao-readme-auto"
+          title: "Atualização Automática do README"
+          body: "Pipeline executado com sucesso em Fazenda Rio Grande!"
+          branch: "readme-update"
+          base: "main" # Tenta mandar para a main
 
