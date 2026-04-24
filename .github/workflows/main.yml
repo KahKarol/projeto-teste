@@ -74,9 +74,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # IMPORTANTE: Garanta que httpx esteja aqui
           pip install fastapi uvicorn httpx pytest pytest-cov pytz
-          # Instala as dependências do arquivo se existir
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Test with pytest
         run: |
@@ -94,7 +92,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Baixa todo o histórico para evitar erros de git
+          fetch-depth: 0 
 
       - uses: actions/setup-python@v5
         with:
@@ -112,7 +110,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "docs: atualiza data no README"
           title: "Atualização Automática do README"
-          body: "Pipeline executado com sucesso em Fazenda Rio Grande!"
           branch: "readme-update"
-          base: "main" # Tenta mandar para a main
-
+          base: "main"
