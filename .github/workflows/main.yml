@@ -90,13 +90,11 @@ jobs:
     needs: testes
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with:
-          # Isso garante que o bot possa fazer push
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # Isso força o checkout da branch correta, mesmo em pull_request
-          ref: ${{ github.head_ref }}
+          fetch-depth: 0 # Baixa todo o histórico para evitar erros de git
 
       - uses: actions/setup-python@v5
         with:
@@ -108,12 +106,12 @@ jobs:
       - name: Executar script de atualização
         run: python update_readme.py
 
-      - name: Criar Pull Request com a atualização
+      - name: Criar ou Atualizar Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "docs: atualiza data no README"
-          title: "Atualização automática do README"
-          body: "Esta é uma atualização automática da data de execução do pipeline."
-          branch: "atualizacao-readme-automatica"
-          delete-branch: true 
+          title: "Atualização Automática do README"
+          body: "Pipeline executado com sucesso em Fazenda Rio Grande!"
+          branch: "readme-update"
+          base: "main" # Tenta mandar para a main
