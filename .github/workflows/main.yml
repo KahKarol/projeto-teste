@@ -83,17 +83,18 @@ jobs:
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           pytest testes/testes.py
 
-          
+
   # 6. ATUALIZAR HORA E DATA
   atualizar-readme:
     runs-on: ubuntu-latest
-    needs: testes 
+    needs: testes
     permissions:
-      contents: write
+      contents: write # Essencial para permitir o commit
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }} # Necessário para o bot ter permissão
+          token: ${{ secrets.GITHUB_TOKEN }} # Autoriza o bot a commitar
+      
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
@@ -109,7 +110,6 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add README.md
-          git commit -m "docs: atualiza data/hora no README"
-          git pull --rebase origin ${GITHUB_REF#refs/heads/}
-          git push origin HEAD:${GITHUB_REF#refs/heads/}
+          # Verifica se há algo para commitar antes de tentar
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: atualiza data no README" && git push)
 
