@@ -73,14 +73,18 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Instalar Dependências
+      - name: Instalar Dependências de Teste
         run: |
           python -m pip install --upgrade pip
-          pip install fastapi uvicorn httpx pytest pytz
+          # Forçamos a instalação do FastAPI e HTTPX (essencial para o TestClient)
+          pip install fastapi httpx pytest pytest-cov pytz
+          # Instalamos o que estiver no seu requirements.txt, se existir
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Testar com pytest
         run: |
+          # Adiciona a raiz ao PATH para o Python encontrar a pasta 'src'
           export PYTHONPATH=$PYTHONPATH:$(pwd)
+          # Corre o teste apontando para o ficheiro específico
           pytest testes/testes.py
 
