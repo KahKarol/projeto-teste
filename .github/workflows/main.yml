@@ -116,5 +116,5 @@ jobs:
           title: "Atualização automática do README"
           body: "Esta é uma atualização automática da data de execução do pipeline."
           branch: "atualizacao-readme-automatica"
-          delete-branch: true
+          delete-branch: true 
 
