@@ -1,1 +1,6 @@
 fastapi==0.2.0
+uvicorn
+httpx
+pytest
+pylint
+pytz

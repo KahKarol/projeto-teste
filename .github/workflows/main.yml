@@ -1,4 +1,4 @@
-name: CI e CD Pipeline
+name: CI e CD 
 
 on:
   push:
@@ -80,5 +80,6 @@ jobs:
       run: |
         pip install pytest pytest-cov
         pytest testes/testes.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-
+        export PYTHONPATH=$PYTHONPATH:$(pwd)
+        pytest
 
